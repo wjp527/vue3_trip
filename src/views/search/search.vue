@@ -1,16 +1,14 @@
 <template>
-  <div class="App">
-    <router-view></router-view>
-    <TabBar v-if="!Route.meta.hideTabBar" />
+  <div class="search">
+    <h2>search</h2>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useRoute } from 'vue-router'
 
-import TabBar from '@/components/tab-bar/index.vue'
-
 const Route = useRoute()
+console.log(Route.query)
 </script>
 
 <style lang="less" scoped></style>
