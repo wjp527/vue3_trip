@@ -6,7 +6,11 @@ const useSearch = defineStore('search', {
   }),
 
   getters: {},
-  actions: {}
+  actions: {},
+  // 开启数据缓存
+  persist: {
+    enabled: true
+  }
 })
 
 export default useSearch

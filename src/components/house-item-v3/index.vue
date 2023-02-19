@@ -30,10 +30,6 @@ const props = defineProps({
     type: Object
   }
 })
-
-const value = computed(() => {
-  return Number(props.itemData?.commentScore)
-})
 </script>
 
 <style lang="less" scoped>

@@ -6,21 +6,36 @@
         <HouseItemV9
           :itemData="item.data"
           v-if="item.discoveryContentType === 9"
+          @click="itemChick(item.data.houseId)"
         />
-        <HouseItemV3 :itemData="item.data" v-else />
+        <HouseItemV3
+          :itemData="item.data"
+          v-else
+          @click="itemChick(item.data.houseId)"
+        />
       </template>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import useHouse from '@/store/modules/home/home'
+import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
+
+// store
+import useHouse from '@/store/modules/home/home'
+
+// 组件
 import HouseItemV9 from '@/components/house-item-v9/index.vue'
 import HouseItemV3 from '@/components/house-item-v3/index.vue'
 const houseStore = useHouse()
 
 const { houseList } = storeToRefs(houseStore)
+
+const Router = useRouter()
+const itemChick = (id: any) => {
+  Router.push(`/details/${id}`)
+}
 </script>
 
 <style lang="less" scoped>
