@@ -2,7 +2,9 @@ import axios from 'axios'
 
 import type { AxiosInstance } from 'axios'
 // loading
+import useCommon from '@/store/modules/common/common'
 
+const commonStore = useCommon()
 // 类型
 import type { IPRequestInterceptors, IPRequestConfig } from './type'
 
@@ -39,9 +41,11 @@ class PRequest {
     this.instance.interceptors.request.use(
       (config) => {
         // console.log('所有的实例都有拦截器: 请求拦截成功')
+        commonStore.loading = true
         return config
       },
       (err) => {
+        commonStore.loading = false
         // console.log('所有的实例都有拦截器: 请求拦截失败')
         return err
       }
@@ -50,9 +54,11 @@ class PRequest {
     this.instance.interceptors.response.use(
       (res) => {
         // console.log('所有的实例都有拦截器: 响应拦截成功')
+        commonStore.loading = false
         return res.data
       },
       (err) => {
+        commonStore.loading = false
         // console.log('所有的实例都有拦截器: 响应拦截失败')
         return err
       }
