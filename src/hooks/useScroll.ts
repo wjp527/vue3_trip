@@ -32,10 +32,11 @@ import { throttle } from 'lodash'
 
 // 监听window窗口的滚动
 
-export default function useScroll() {
+export default function useScroll(elRef?: any) {
+  let el = window
   // 定义一个变量，用来判断是否滚动到了底部
   const isReachBottom = ref(false)
-  // 获取滚动条位置 距离顶部的距离
+  // 获取滚动距离
   const scrollTop = ref(0)
   // 获取文档实际高度
   const scrollHeight = ref(0)
@@ -44,9 +45,15 @@ export default function useScroll() {
 
   // 节流
   const scrollListenerHandler = throttle(() => {
-    scrollTop.value = document.documentElement.scrollTop
-    scrollHeight.value = document.documentElement.scrollHeight
-    clientHeight.value = document.documentElement.clientHeight
+    if (el === window) {
+      scrollTop.value = document.documentElement.scrollTop
+      scrollHeight.value = document.documentElement.scrollHeight
+      clientHeight.value = document.documentElement.clientHeight
+    } else {
+      clientHeight.value = el?.clientHeight
+      scrollTop.value = el?.scrollTop
+      scrollHeight.value = el?.scrollHeight
+    }
     // 获取滚动距离加上屏幕可视区域的高度
     const num = clientHeight.value + scrollTop.value
 
@@ -57,12 +64,13 @@ export default function useScroll() {
 
   // 页面渲染完毕后进行监听
   onMounted(() => {
-    window.addEventListener('scroll', scrollListenerHandler)
+    if (elRef) el = elRef.value
+    el.addEventListener('scroll', scrollListenerHandler)
   })
 
   // 离开页面时，移除监听
   onUnmounted(() => {
-    // window.removeEventListener('scroll', scrollListenerHandler)
+    el.removeEventListener('scroll', scrollListenerHandler)
   })
 
   return { isReachBottom, scrollTop, scrollHeight, clientHeight }

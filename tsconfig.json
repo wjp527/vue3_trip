@@ -14,7 +14,8 @@
     },
     "types": [
       "node"
-    ]
+    ],
+    "allowJs": true
   },
   "references": [
     {

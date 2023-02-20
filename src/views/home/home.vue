@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
+  <div class="home" ref="homeRef">
     <div class="nav-bar">
-      <van-nav-bar title="宏源旅途" />
+      <van-nav-bar title="弘源旅途" />
     </div>
     <div v-if="isShowSearchBar" class="searh-bar">
       <SearchBar />
@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts" setup>
-import { watch, ref, computed } from 'vue'
+import { watch, ref, computed, onActivated } from 'vue'
 // hooks
 import useHot from '@/store/modules/hotSuggests/hotSuggests'
 import useHouse from '@/store/modules/home/home'
@@ -44,7 +44,8 @@ houseStore.getHouseByPageAsync()
 // useScroll(houseStore.getHouseByPageAsync)
 
 // 变量方式
-const { isReachBottom, scrollTop } = useScroll()
+const homeRef = ref()
+const { isReachBottom, scrollTop } = useScroll(homeRef)
 // watch监听的数据，必须是响应式的
 watch(isReachBottom, async (newValue) => {
   if (newValue === true) {
@@ -71,10 +72,21 @@ watch(isReachBottom, async (newValue) => {
 const isShowSearchBar = computed(() => {
   return scrollTop.value > 330 ? true : false
 })
+
+// 跳转回home时，保留原来的位置
+onActivated(() => {
+  homeRef.value?.scrollTo({
+    top: scrollTop.value
+  })
+})
 </script>
 
-<style lang="less" scoped>
+<style lang="less" name="home" scoped>
 .home {
+  height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding-bottom: 60px;
   // padding-bottom: 60px;
   .searh-bar {
     position: fixed;

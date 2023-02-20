@@ -26,9 +26,10 @@
 </template>
 
 <script lang="ts" setup>
+import type { PropType } from 'vue'
 const props = defineProps({
   swiperData: {
-    type: Array,
+    type: Array as PropType<any[]>,
     default: () => []
   }
 })

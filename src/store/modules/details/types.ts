@@ -8,6 +8,6 @@ export interface IHouseDetails {
 
 // getters的参数类型
 // mainPort数据
-export type TGetMainPart = () => {}
+export type TGetMainPart = any
 // 轮播图数据
-export type TGetSwiper = () => []
+export type TGetSwiper = () => any[]
